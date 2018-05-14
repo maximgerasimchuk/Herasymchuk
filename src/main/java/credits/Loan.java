@@ -1,4 +1,4 @@
-package entity;
+package credits;
 
 public class Loan {
     private int rate;
@@ -7,8 +7,10 @@ public class Loan {
     private boolean early_repayment_possibility;
     private int max_amount;
     private int min_amount;
+    private int selected_amount;
     private int max_term;
     private int min_term;
+    private int selected_term;
     private String bank;
 
     public int getRate() {
@@ -75,6 +77,22 @@ public class Loan {
         this.min_term = min_term;
     }
 
+    public int getSelected_term() {
+        return selected_term;
+    }
+
+    public void setSelected_term(int selected_term) {
+        this.selected_term = selected_term;
+    }
+
+    public int getSelected_amount() {
+        return selected_amount;
+    }
+
+    public void setSelected_amount(int selected_amount) {
+        this.selected_amount = selected_amount;
+    }
+
     public String getBank() {
         return bank;
     }
@@ -83,7 +101,7 @@ public class Loan {
         this.bank = bank;
     }
 
-    public Loan(int rate, int loan_commission, int monthly_fee, boolean early_repayment_possibility, int max_amount, int min_amount, int max_term, int min_term, String bank) {
+    public Loan(int rate, int loan_commission, int monthly_fee, boolean early_repayment_possibility, int max_amount, int min_amount, int selected_term, int max_term, int min_term, String bank) {
         this.rate = rate;
         this.loan_commission = loan_commission;
         this.monthly_fee = monthly_fee;
@@ -92,9 +110,14 @@ public class Loan {
         this.min_amount = min_amount;
         this.max_term = max_term;
         this.min_term = min_term;
+        this.selected_term = selected_term;
         this.bank = bank;
     }
 
     public Loan() {
+    }
+
+    public int calculateCreditOverpayment(){
+        return selected_amount * rate / 12 * selected_term + monthly_fee + selected_amount * monthly_fee * selected_term + selected_amount * loan_commission;
     }
 }
