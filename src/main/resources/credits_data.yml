@@ -1,0 +1,88 @@
+  cash_loan:
+    1:
+      rate: 40.00
+      loan_commission: 0
+      monthly_fee: 0
+      early_repayment_possibility: true
+      max_amount: 200000
+      min_amount: 1000
+      max_term: 36
+      min_term: 1
+      bank: alfabank
+    2:
+      rate: 22
+      loan_commission: 0
+      monthly_fee: 0
+      early_repayment_possibility: true
+      max_amount: 50000
+      min_amount: 1000
+      max_term: 36
+      min_term: 1
+      bank: ideabank
+    3:
+      rate: 36
+      loan_commission: 5
+      monthly_fee: 0.85
+      early_repayment_possibility: false
+      max_amount: 300000
+      min_amount: 1000
+      max_term: 5
+      min_term: 1
+      bank: otp_bank
+  car_loan:
+    1:
+      rate: 21
+      loan_commission: 1.5
+      down_payment: 50
+      early_repayment_possibility: true
+      max_amount: 1000000
+      min_amount: 10000
+      max_term: 24
+      min_term: 2
+      mandatory_insurance: true
+      bank: otp_bank
+    2:
+      rate: 24.6
+      loan_commission: 2
+      down_payment: 10
+      early_repayment_possibility: false
+      max_amount: 3000000
+      min_amount: 10000
+      max_term: 60
+      min_term: 2
+      mandatory_insurance: false
+      bank: ukrgazbank
+    3:
+      rate: 14.99
+      loan_commission: 2
+      down_payment: 30
+      early_repayment_possibility: true
+      max_amount: 1500000
+      min_amount: 50000
+      max_term: 12
+      min_term: 2
+      mandatory_insurance: true
+      bank: kredobank
+  mortgage:
+    1:
+      rate: 9.99
+      loan_commission: 0.2
+      down_payment: 15
+      early_repayment_possibility: true
+      max_amount: 3500000
+      min_amount: 80000
+      max_term: 60
+      min_term: 2
+      mandatory_insurance: true
+      bank: kredobank
+    2:
+      rate: 4.99
+      loan_commission: 0.3
+      down_payment: 30
+      early_repayment_possibility: false
+      max_amount: 5500000
+      min_amount: 100000
+      max_term: 84
+      min_term: 2
+      mandatory_insurance: true
+      bank: ukrgazbank
