@@ -1,6 +1,8 @@
 package credits;
 
-public class Loan {
+import java.util.List;
+
+public class ConsumerCredit {
     private int rate;
     private int loan_commission;
     private int monthly_fee;
@@ -12,6 +14,7 @@ public class Loan {
     private int min_term;
     private int selected_term;
     private String bank;
+    private String type;
 
     public int getRate() {
         return rate;
@@ -101,7 +104,15 @@ public class Loan {
         this.bank = bank;
     }
 
-    public Loan(int rate, int loan_commission, int monthly_fee, boolean early_repayment_possibility, int max_amount, int min_amount, int selected_term, int max_term, int min_term, String bank) {
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public ConsumerCredit(int rate, int loan_commission, int monthly_fee, boolean early_repayment_possibility, int max_amount, int min_amount, int selected_term, int max_term, int min_term, String bank, String type) {
         this.rate = rate;
         this.loan_commission = loan_commission;
         this.monthly_fee = monthly_fee;
@@ -112,12 +123,36 @@ public class Loan {
         this.min_term = min_term;
         this.selected_term = selected_term;
         this.bank = bank;
+        this.type = type;
     }
 
-    public Loan() {
+    public ConsumerCredit() {
     }
 
     public int calculateCreditOverpayment(){
         return selected_amount * rate / 12 * selected_term + monthly_fee + selected_amount * monthly_fee * selected_term + selected_amount * loan_commission;
+    }
+
+    public void print() {
+        final Object[][] table = new Object[2][];
+        table[0] = new String[] {"LoanType", "Bank", "Rate", "LoanCommission", "MonthlyFee",
+                "earlyRepaymentPossibility", "MaxAmount", "MinAmount", "MaxTerm", "MinTerm"};
+
+        table[1] = new String[]{
+                getType(),
+                getBank(),
+                String.valueOf(getRate()),
+                String.valueOf(getLoan_commission()),
+                String.valueOf(getMonthly_fee()),
+                String.valueOf(isEarly_repayment_possibility()),
+                String.valueOf(getMax_amount()),
+                String.valueOf(getMin_amount()),
+                String.valueOf(getMax_term()),
+                String.valueOf(getMin_term())
+        };
+
+        for (final Object[] row: table){
+            System.out.format("%15s%15s%12s%20s%15s%30s%12s%12s%12s%12s\n", row);
+        }
     }
 }
