@@ -5,30 +5,32 @@ import credits.ConsumerCredit;
 import credits.CreditData;
 import credits.Loan;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class SelectCreditService {
     private PrintService printService;
-    private List<CollateralCredit> collateralCredit;
-    private List<ConsumerCredit> consumerCredit;
+    private List<? extends Loan> consumerCredit;
+    private List<? extends Loan> collateralCredit;
 
     private Loan selectedCredit;
 
     public SelectCreditService(List<CollateralCredit> collateralCredit, List<ConsumerCredit> consumerCredit) {
-        this.collateralCredit = collateralCredit;
         this.consumerCredit = consumerCredit;
+        this.collateralCredit = collateralCredit;
         printService = new PrintService();
     }
 
-    public void showAllOffers(List<Loan> loans) {
-        printService.printLoans(loans);
+    public void showAllOffers() {
+        printService.printHeader();
+        printService.printLoans(consumerCredit);
+        printService.printLoans(collateralCredit);
     }
 
     public void runService() {
         System.out.println("Your can select any credit offer from list above:");
-        showAllOffers(consumerCredit);
-        showAllOffers(collateralCredit);
+        showAllOffers();
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("How do you want to select credit? " + '\n' + "1 - by parameters; \n2 - by monthly repayment amount;\n0 - exit");
@@ -80,52 +82,78 @@ public class SelectCreditService {
         selectedCredit.setSelected_term(term);
         selectedCredit.setSelected_amount(amount);
 
-        boolean isPossibleCredit = isPosibleCredit(selectedCredit);
-        if (isPossibleCredit){
-            System.out.println("For choice your can select one of next credit:");
-            showAllOffers(consumerCredit);
-        } else {
+        boolean isPossibleCredit = isPossibleCredit();
+        if (!isPossibleCredit) {
             System.out.println("No offers for selected parameters. Please try again");
             runService();
+        } else if (consumerCredit.size() > 1) {
+            finalChoice(consumerCredit);
+        } else if (collateralCredit.size() > 1){
+            finalChoice(collateralCredit);
         }
     }
 
-    private boolean isPosibleCredit(Loan selectedCredit) {
-        if (selectedCredit.getType().equals("cash")){
+    private boolean isPossibleCredit() {
+        if (selectedCredit.getType().equals("cash")) {
             collateralCredit.clear();
-        } else {
+        } else if (selectedCredit.getType().equals("carLoan")) {
             consumerCredit.clear();
-        }
-
-        for (int i = 0; i < consumerCredit.size(); i++){
-            if (consumerCredit.get(i).getMin_amount() > selectedCredit.getSelected_amount() || consumerCredit.get(i).getMax_amount() < selectedCredit.getSelected_amount()){
-                consumerCredit.remove(i);
+            for (int i = collateralCredit.size() - 1; i >= 0; i--) {
+                if (collateralCredit.get(i).getType().equals("mortgage")) {
+                    collateralCredit.remove(i);
+                }
+            }
+        } else if (selectedCredit.getType().equals("mortgage")) {
+            consumerCredit.clear();
+            for (int i = collateralCredit.size() - 1; i >= 0; i--) {
+                if (collateralCredit.get(i).getType().equals("carLoan")) {
+                    collateralCredit.remove(i);
+                }
             }
         }
 
-        for (int i = 0; i < collateralCredit.size(); i++){
-            if (collateralCredit.get(i).getMin_amount() > selectedCredit.getSelected_amount() || collateralCredit.get(i).getMax_amount() < selectedCredit.getSelected_amount()){
-                collateralCredit.remove(i);
+        if (!consumerCredit.isEmpty()) {
+            for (int i = consumerCredit.size() - 1; i >= 0; i--) {
+                if (consumerCredit.get(i).getMin_amount() > selectedCredit.getSelected_amount() || consumerCredit.get(i).getMax_amount() < selectedCredit.getSelected_amount()) {
+                    consumerCredit.remove(i);
+                }
+            }
+        }
+        if (!collateralCredit.isEmpty()) {
+            for (int i = collateralCredit.size() - 1; i >= 0; i--) {
+                if (collateralCredit.get(i).getMin_amount() > selectedCredit.getSelected_amount() || collateralCredit.get(i).getMax_amount() < selectedCredit.getSelected_amount()) {
+                    collateralCredit.remove(i);
+                }
             }
         }
 
-        for (int i = 0; i < consumerCredit.size(); i++){
-            if (consumerCredit.get(i).getMin_term() > selectedCredit.getSelected_term() || consumerCredit.get(i).getMax_term() < selectedCredit.getSelected_term()){
-                consumerCredit.remove(i);
-                System.out.println("Your have selected unsupported credit amount");
+        if (!consumerCredit.isEmpty()) {
+            for (int i = consumerCredit.size() - 1; i >= 0; i--) {
+                if (consumerCredit.get(i).getMin_term() > selectedCredit.getSelected_term() || consumerCredit.get(i).getMax_term() < selectedCredit.getSelected_term()) {
+                    consumerCredit.remove(i);
+                    System.out.println("Your have selected unsupported credit amount");
+                }
             }
         }
 
-        for (int i = 0; i < collateralCredit.size(); i++){
-            if (collateralCredit.get(i).getMin_term() > selectedCredit.getSelected_term() || collateralCredit.get(i).getMax_term() < selectedCredit.getSelected_term()){
-                collateralCredit.remove(i);
-                System.out.println("Your have selected unsupported credit amount");
+        if (!collateralCredit.isEmpty()) {
+            for (int i = collateralCredit.size() - 1; i >= 0; i--) {
+                if (collateralCredit.get(i).getMin_term() > selectedCredit.getSelected_term() || collateralCredit.get(i).getMax_term() < selectedCredit.getSelected_term()) {
+                    collateralCredit.remove(i);
+                    System.out.println("Your have selected unsupported credit amount");
+                }
             }
         }
 
-        if (consumerCredit.isEmpty() && collateralCredit.isEmpty()){
+        if (consumerCredit.isEmpty() && collateralCredit.isEmpty()) {
             return false;
         }
         return false;
+    }
+
+    private <T extends Loan> void finalChoice(List<T> loans) {
+        System.out.println("Make your final choice. Your can select one of next credit:");
+        showAllOffers();
+
     }
 }
