@@ -2,7 +2,7 @@ package credits;
 
 import java.util.List;
 
-public class CollateralCredit extends ConsumerCredit {
+public class CollateralCredit extends Loan {
     private boolean mandatory_insurance;
     private int down_payment;
 
@@ -22,8 +22,8 @@ public class CollateralCredit extends ConsumerCredit {
         this.down_payment = down_payment;
     }
 
-    public CollateralCredit(int rate, int loan_commission, int monthly_fee, boolean early_repayment_possibility, int max_amount, int min_amount, int selected_term, int max_term, int min_term, String bank, String type, boolean mandatory_insurance, int down_payment) {
-        super(rate, loan_commission, monthly_fee, early_repayment_possibility, max_amount, min_amount, selected_term, max_term, min_term, bank, type);
+    public CollateralCredit(float rate, float loan_commission, float monthly_fee, boolean early_repayment_possibility, int max_amount, int min_amount, int max_term, int min_term, int selected_term, String bank, String type) {
+        super(rate, loan_commission, monthly_fee, early_repayment_possibility, max_amount, min_amount, max_term, min_term, selected_term, bank, type);
         this.mandatory_insurance = mandatory_insurance;
         this.down_payment = down_payment;
     }
@@ -33,33 +33,31 @@ public class CollateralCredit extends ConsumerCredit {
 
     //monthly_fee doesn't use for calculate overpayment
     @Override
-    public int calculateCreditOverpayment(){
+    public float calculateCreditOverpayment() {
         return super.getSelected_amount() * super.getRate() / 12 * super.getSelected_term() + super.getMonthly_fee() + super.getSelected_amount() * super.getLoan_commission();
     }
 
+    @Override
     public void print() {
-        final Object[][] table = new Object[2][];
-        table[0] = new String[] {"LoanType", "Bank", "Rate", "LoanCommission", "MonthlyFee",
-                "earlyRepaymentPossibility", "MaxAmount", "MinAmount", "MaxTerm", "MinTerm",
-                "DownPayment", "MandatoryInsurance"};
+        final Object[][] table = new Object[1][];
 
-            table[1] = new String[]{
-                    getType(),
-                    getBank(),
-                    String.valueOf(getRate()),
-                    String.valueOf(getLoan_commission()),
-                    String.valueOf(getMonthly_fee()),
-                    String.valueOf(isEarly_repayment_possibility()),
-                    String.valueOf(getMax_amount()),
-                    String.valueOf(getMin_amount()),
-                    String.valueOf(getMax_term()),
-                    String.valueOf(getMin_term()),
-                    String.valueOf(getDown_payment()),
-                    String.valueOf(isMandatory_insurance())
-            };
+        table[0] = new String[]{
+                getType(),
+                getBank(),
+                String.valueOf(getRate()),
+                String.valueOf(getLoan_commission()),
+                String.valueOf(getMonthly_fee()),
+                String.valueOf(isEarly_repayment_possibility()),
+                String.valueOf(getMax_amount()),
+                String.valueOf(getMin_amount()),
+                String.valueOf(getMax_term()),
+                String.valueOf(getMin_term()),
+                String.valueOf(getDown_payment()),
+                String.valueOf(isMandatory_insurance())
+        };
 
-        for (final Object[] row: table){
-            System.out.format("%15s%15s%12s%20s%15s%30s%12s%12s%12s%12s%12s%12s\n", row);
+        for (final Object[] row : table) {
+            System.out.format("%15s%15s%12s%20s%15s%30s%12s%12s%12s%12s%15s%20s\n", row);
         }
     }
 }

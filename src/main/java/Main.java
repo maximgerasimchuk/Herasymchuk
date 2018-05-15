@@ -2,7 +2,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import credits.CollateralCredit;
 import credits.ConsumerCredit;
-import services.CreditData;
+import credits.CreditData;
+import services.PrintService;
+import services.SelectCreditService;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,16 +13,16 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        CreditData creditData = readYaml(new File("/Users/mgerasimchuk/IdeaProjects/Herasymchuk/src/main/resources/credits_data.yml"));
-        final List<ConsumerCredit> consumerCredits = new ArrayList<>();
-        List<CollateralCredit> collateralLoans = new ArrayList<>();
+        CreditData creditData = readYaml(new File(System.getProperty("user.dir") +  "/src/main/resources/credits_data.yml"));
+        List<ConsumerCredit> consumerCredits = new ArrayList<>();
+        List<CollateralCredit> collateralCredits = new ArrayList<>();
 
         creditData.getCash_loan().forEach((k, v) -> consumerCredits.add(v));
-        creditData.getCar_loan().forEach((k, v) -> collateralLoans.add(v));
-        creditData.getMortgage().forEach((k, v) -> collateralLoans.add(v));
+        creditData.getCar_loan().forEach((k, v) -> collateralCredits.add(v));
+        creditData.getMortgage().forEach((k, v) -> collateralCredits.add(v));
 
-        consumerCredits.get(0).print();
-        collateralLoans.get(0).print();
+        SelectCreditService selectCreditService = new SelectCreditService(collateralCredits, consumerCredits);
+        selectCreditService.runService();
 
     }
 
