@@ -11,8 +11,8 @@ import java.util.Scanner;
 
 public class SelectCreditService {
     private PrintService printService;
-    private List<? extends Loan> consumerCreditList;
-    private List<? extends Loan> collateralCreditList;
+    private List<ConsumerCredit> consumerCreditList;
+    private List<CollateralCredit> collateralCreditList;
 
     private ConsumerCredit selectedConsumerCredit;
     private CollateralCredit selectedCollateralCredit;
@@ -57,7 +57,7 @@ public class SelectCreditService {
     }
 
     private void selectCreditByParameters(Scanner scanner) {
-        System.out.println("What type of credit you need? (1 - cash; 2 - carLoan; 3 - mortgage");
+        System.out.println("What type of credit you need? (1 - cash; 2 - carLoan; 3 - mortgage)");
         int creditType = Integer.valueOf(scanner.nextLine());
 
         System.out.println("What credit amount you need ?");
@@ -78,14 +78,18 @@ public class SelectCreditService {
                 } else if (consumerCreditList.size() > 1) {
                     finalChoice(consumerCreditList, scanner);
                 } else {
-                    selectedConsumerCredit
-                            .setId(consumerCreditList.get(0).getId())
-                            .setRate(consumerCreditList.get(0).getRate())
-                            .setLoan_commission(consumerCreditList.get(0).getLoan_commission())
-                            .setMonthly_fee(consumerCreditList.get(0).getMonthly_fee())
-                            .setEarly_repayment_possibility(consumerCreditList.get(0).isEarly_repayment_possibility())
-                            .setBank(consumerCreditList.get(0).getBank())
-                            .setType(consumerCreditList.get(0).getType());
+                    selectedConsumerCredit.setId(consumerCreditList.get(0).getId());
+                    selectedConsumerCredit.setBank(consumerCreditList.get(0).getBank());
+                    selectedConsumerCredit.setType(consumerCreditList.get(0).getType());
+                    selectedConsumerCredit.setRate(consumerCreditList.get(0).getRate());
+                    selectedConsumerCredit.setLoan_commission(consumerCreditList.get(0).getLoan_commission());
+                    selectedConsumerCredit.setMonthly_fee(consumerCreditList.get(0).getMonthly_fee());
+                    selectedConsumerCredit.setEarly_repayment_possibility(consumerCreditList.get(0).isEarly_repayment_possibility());
+                    selectedConsumerCredit.setMax_amount(consumerCreditList.get(0).getMax_amount());
+                    selectedConsumerCredit.setMin_amount(consumerCreditList.get(0).getMin_amount());
+                    selectedConsumerCredit.setMax_term(consumerCreditList.get(0).getMax_term());
+                    selectedConsumerCredit.setMin_term(consumerCreditList.get(0).getMin_term());
+
                     System.out.println("You have selected next offer:");
                     showAllOffers();
                     printService.printSelectedLoan(selectedConsumerCredit);
@@ -102,14 +106,20 @@ public class SelectCreditService {
                 } else if (collateralCreditList.size() > 1) {
                     finalChoice(collateralCreditList, scanner);
                 } else {
-                    selectedCollateralCredit
-                            .setId(collateralCreditList.get(0).getId())
-                            .setRate(collateralCreditList.get(0).getRate())
-                            .setLoan_commission(collateralCreditList.get(0).getLoan_commission())
-                            .setMonthly_fee(collateralCreditList.get(0).getMonthly_fee())
-                            .setEarly_repayment_possibility(collateralCreditList.get(0).isEarly_repayment_possibility())
-                            .setBank(collateralCreditList.get(0).getBank())
-                            .setType(collateralCreditList.get(0).getType());
+                    selectedCollateralCredit.setId(collateralCreditList.get(0).getId());
+                    selectedCollateralCredit.setType(collateralCreditList.get(0).getType());
+                    selectedCollateralCredit.setBank(collateralCreditList.get(0).getBank());
+                    selectedCollateralCredit.setRate(collateralCreditList.get(0).getRate());
+                    selectedCollateralCredit.setLoan_commission(collateralCreditList.get(0).getLoan_commission());
+                    selectedCollateralCredit.setMonthly_fee(collateralCreditList.get(0).getMonthly_fee());
+                    selectedCollateralCredit.setEarly_repayment_possibility(collateralCreditList.get(0).isEarly_repayment_possibility());
+                    selectedCollateralCredit.setMax_amount(collateralCreditList.get(0).getMax_amount());
+                    selectedCollateralCredit.setMin_amount(collateralCreditList.get(0).getMin_amount());
+                    selectedCollateralCredit.setMax_term(collateralCreditList.get(0).getMax_term());
+                    selectedCollateralCredit.setMin_term(collateralCreditList.get(0).getMin_term());
+                    selectedCollateralCredit.setDown_payment(collateralCreditList.get(0).getDown_payment());
+                    selectedCollateralCredit.setMandatory_insurance(collateralCreditList.get(0).isMandatory_insurance());
+
                     System.out.println("You have selected next offer:");
                     showAllOffers();
                     selectedCollateralCredit = enterDownPayment(scanner, selectedCollateralCredit);
@@ -127,16 +137,23 @@ public class SelectCreditService {
                 } else if (collateralCreditList.size() > 1) {
                     finalChoice(collateralCreditList, scanner);
                 } else {
-                    selectedCollateralCredit
-                            .setId(collateralCreditList.get(0).getId())
-                            .setRate(collateralCreditList.get(0).getRate())
-                            .setLoan_commission(collateralCreditList.get(0).getLoan_commission())
-                            .setMonthly_fee(collateralCreditList.get(0).getMonthly_fee())
-                            .setEarly_repayment_possibility(collateralCreditList.get(0).isEarly_repayment_possibility())
-                            .setBank(collateralCreditList.get(0).getBank())
-                            .setType(collateralCreditList.get(0).getType());
+                    selectedCollateralCredit.setId(collateralCreditList.get(0).getId());
+                    selectedCollateralCredit.setType(collateralCreditList.get(0).getType());
+                    selectedCollateralCredit.setBank(collateralCreditList.get(0).getBank());
+                    selectedCollateralCredit.setRate(collateralCreditList.get(0).getRate());
+                    selectedCollateralCredit.setLoan_commission(collateralCreditList.get(0).getLoan_commission());
+                    selectedCollateralCredit.setMonthly_fee(collateralCreditList.get(0).getMonthly_fee());
+                    selectedCollateralCredit.setEarly_repayment_possibility(collateralCreditList.get(0).isEarly_repayment_possibility());
+                    selectedCollateralCredit.setMax_amount(collateralCreditList.get(0).getMax_amount());
+                    selectedCollateralCredit.setMin_amount(collateralCreditList.get(0).getMin_amount());
+                    selectedCollateralCredit.setMax_term(collateralCreditList.get(0).getMax_term());
+                    selectedCollateralCredit.setMin_term(collateralCreditList.get(0).getMin_term());
+                    selectedCollateralCredit.setDown_payment(collateralCreditList.get(0).getDown_payment());
+                    selectedCollateralCredit.setMandatory_insurance(collateralCreditList.get(0).isMandatory_insurance());
+
                     System.out.println("You have selected next offer:");
                     showAllOffers();
+                    selectedCollateralCredit = enterDownPayment(scanner, selectedCollateralCredit);
                     printService.printSelectedLoan(selectedCollateralCredit);
                 }
                 break;
@@ -150,7 +167,7 @@ public class SelectCreditService {
             System.out.println("You have entered value that less than '" + selectedCollateralCredit.getDown_payment() + "'. Please re-enter greater value.");
             enterDownPayment(scanner, selectedCollateralCredit);
         } else {
-            selectedCollateralCredit.setDown_payment(downPayment);
+            selectedCollateralCredit.setSelectedDownPayment(downPayment);
         }
         return selectedCollateralCredit;
     }
@@ -229,14 +246,17 @@ public class SelectCreditService {
             if (loans.get(0).getClass().equals(ConsumerCredit.class)) {
                 for (int i = 0; i < loans.size(); i++) {
                     if (id == loans.get(i).getId()) {
-                        selectedConsumerCredit
-                                .setId(consumerCreditList.get(i).getId())
-                                .setRate(consumerCreditList.get(i).getRate())
-                                .setLoan_commission(consumerCreditList.get(i).getLoan_commission())
-                                .setMonthly_fee(consumerCreditList.get(i).getMonthly_fee())
-                                .setEarly_repayment_possibility(consumerCreditList.get(i).isEarly_repayment_possibility())
-                                .setBank(consumerCreditList.get(i).getBank())
-                                .setType(consumerCreditList.get(i).getType());
+                        selectedConsumerCredit.setId(consumerCreditList.get(i).getId());
+                        selectedConsumerCredit.setBank(consumerCreditList.get(i).getBank());
+                        selectedConsumerCredit.setType(consumerCreditList.get(i).getType());
+                        selectedConsumerCredit.setRate(consumerCreditList.get(i).getRate());
+                        selectedConsumerCredit.setLoan_commission(consumerCreditList.get(i).getLoan_commission());
+                        selectedConsumerCredit.setMonthly_fee(consumerCreditList.get(i).getMonthly_fee());
+                        selectedConsumerCredit.setEarly_repayment_possibility(consumerCreditList.get(i).isEarly_repayment_possibility());
+                        selectedConsumerCredit.setMax_amount(consumerCreditList.get(i).getMax_amount());
+                        selectedConsumerCredit.setMin_amount(consumerCreditList.get(i).getMin_amount());
+                        selectedConsumerCredit.setMax_term(consumerCreditList.get(i).getMax_term());
+                        selectedConsumerCredit.setMin_term(consumerCreditList.get(i).getMin_term());
                     }
                 }
                 if (selectedConsumerCredit.getId() != id) {
@@ -247,14 +267,7 @@ public class SelectCreditService {
             } else {
                 for (int i = 0; i < loans.size(); i++) {
                     if (id == loans.get(i).getId()) {
-                        selectedCollateralCredit
-                                .setId(collateralCreditList.get(i).getId())
-                                .setRate(collateralCreditList.get(i).getRate())
-                                .setLoan_commission(collateralCreditList.get(i).getLoan_commission())
-                                .setMonthly_fee(collateralCreditList.get(i).getMonthly_fee())
-                                .setEarly_repayment_possibility(collateralCreditList.get(i).isEarly_repayment_possibility())
-                                .setBank(collateralCreditList.get(i).getBank())
-                                .setType(collateralCreditList.get(i).getType());
+                        selectedCollateralCredit = setSelectedCreditParameters(selectedCollateralCredit, ((CollateralCredit) loans.get(i)));
                     }
                 }
                 if (selectedCollateralCredit.getId() != id) {
@@ -265,5 +278,25 @@ public class SelectCreditService {
                 printService.printSelectedLoan(selectedCollateralCredit);
             }
         }
+    }
+
+    private <T extends CollateralCredit> T setSelectedCreditParameters(T selectedCredit, T availableCredit) {
+        selectedCredit.setId(availableCredit.getId());
+        selectedCredit.setBank(availableCredit.getBank());
+        selectedCredit.setType(availableCredit.getType());
+        selectedCredit.setRate(availableCredit.getRate());
+        selectedCredit.setLoan_commission(availableCredit.getLoan_commission());
+        selectedCredit.setMonthly_fee(availableCredit.getMonthly_fee());
+        selectedCredit.setEarly_repayment_possibility(availableCredit.isEarly_repayment_possibility());
+        selectedCredit.setMax_amount(availableCredit.getMax_amount());
+        selectedCredit.setMin_amount(availableCredit.getMin_amount());
+        selectedCredit.setMax_term(availableCredit.getMax_term());
+        selectedCredit.setMin_term(availableCredit.getMin_term());
+
+        if (selectedCredit.getClass().equals(CollateralCredit.class)) {
+            ((CollateralCredit) selectedCredit).setDown_payment(((CollateralCredit) availableCredit).getDown_payment());
+            ((CollateralCredit) selectedCredit).setMandatory_insurance(((CollateralCredit) availableCredit).isMandatory_insurance());
+        }
+        return selectedCredit;
     }
 }
