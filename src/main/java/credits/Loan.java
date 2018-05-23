@@ -14,6 +14,8 @@ public class Loan {
     private int selected_term;
     private String bank;
     private String type;
+    private int repaymentAmount;
+    private int overpayment;
 
     public int getId() {
         return id;
@@ -119,6 +121,22 @@ public class Loan {
         this.type = type;
     }
 
+    public int getRepaymentAmount() {
+        return repaymentAmount;
+    }
+
+    public void setRepaymentAmount(int repaymentAmount) {
+        this.repaymentAmount = repaymentAmount;
+    }
+
+    public int getOverpayment() {
+        return overpayment;
+    }
+
+    public void setOverpayment(int overpayment) {
+        this.overpayment = overpayment;
+    }
+
     public Loan() {
     }
 
@@ -138,7 +156,7 @@ public class Loan {
     }
 
     public float calculateCreditOverpayment() {
-        return selected_amount * rate / 12 * selected_term + monthly_fee + selected_amount * monthly_fee * selected_term + selected_amount * loan_commission;
+        return calculateFirstMonthlyRepayment(selected_amount) * selected_term - selected_amount;
     }
 
     public void print() {
@@ -162,7 +180,7 @@ public class Loan {
         }
     }
 
-    public void printSelectedCredit(){
+    public void printSelectedCredit() {
         final Object[][] table = new Object[1][];
         table[0] = new String[]{
                 String.valueOf(id),
@@ -174,9 +192,15 @@ public class Loan {
                 String.valueOf(early_repayment_possibility),
                 String.valueOf(selected_amount),
                 String.valueOf(selected_term),
+                String.valueOf(repaymentAmount),
+                String.valueOf(overpayment)
         };
         for (final Object[] row : table) {
-            System.out.format("%10s%15s%15s%12s%20s%15s%30s%18s%18s\n", row);
+            System.out.format("%10s%15s%15s%12s%20s%15s%30s%18s%18s%20s%18s\n", row);
         }
+    }
+
+    public float calculateFirstMonthlyRepayment(int amount) {
+        return amount / selected_term + amount * monthly_fee + amount * rate / 12 / 100;
     }
 }

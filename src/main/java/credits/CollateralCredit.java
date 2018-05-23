@@ -46,7 +46,12 @@ public class CollateralCredit extends Loan {
     //monthly_fee doesn't use for calculate overpayment
     @Override
     public float calculateCreditOverpayment() {
-        return super.getSelected_amount() * super.getRate() / 12 * super.getSelected_term() + super.getMonthly_fee() + super.getSelected_amount() * super.getLoan_commission();
+        return calculateFirstMonthlyRepayment(getSelected_amount(), selectedDownPayment) * super.getSelected_term() - super.getSelected_amount() - getDown_payment();
+    }
+
+    public float calculateFirstMonthlyRepayment(int amount, int downPayment) {
+        amount = amount - downPayment;
+        return amount / super.getMax_term() + amount * super.getMonthly_fee() + amount * super.getRate() / 12 / 100;
     }
 
     @Override
@@ -74,7 +79,7 @@ public class CollateralCredit extends Loan {
     }
 
     @Override
-    public void printSelectedCredit(){
+    public void printSelectedCredit() {
         final Object[][] table = new Object[1][];
         table[0] = new String[]{
                 String.valueOf(getId()),
@@ -86,11 +91,13 @@ public class CollateralCredit extends Loan {
                 String.valueOf(isEarly_repayment_possibility()),
                 String.valueOf(getSelected_amount()),
                 String.valueOf(getSelected_term()),
+                String.valueOf(getRepaymentAmount()),
+                String.valueOf(getOverpayment()),
                 String.valueOf(selectedDownPayment),
                 String.valueOf(mandatory_insurance)
         };
         for (final Object[] row : table) {
-            System.out.format("%10s%15s%15s%12s%20s%15s%30s%18s%18s%24s%22s\n", row);
+            System.out.format("%10s%15s%15s%12s%20s%15s%30s%18s%18s%20s%18s%24s%22s\n", row);
         }
     }
 }

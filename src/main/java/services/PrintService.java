@@ -37,10 +37,12 @@ public class PrintService {
                 "earlyRepaymentPossibility",
                 "SelectedAmount",
                 "SelectedTerm",
+                "RepaymentAmount",
+                "Overpayment",
                 "SelectedDownPayment",
                 "MandatoryInsurance"};
         for (final Object[] row : tableHeader) {
-            System.out.format("%10s%15s%15s%12s%20s%15s%30s%18s%18s%24s%22s\n", row);
+            System.out.format("%10s%15s%15s%12s%20s%15s%30s%18s%18s%20s%18s%24s%22s\n", row);
         }
         selectedCredit.printSelectedCredit();
     }
